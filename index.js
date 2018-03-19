@@ -29,7 +29,29 @@ var server = http.createServer(function(req, res) {
       return;
     } else {
       res.setHeader("Content-Type", mime.getType(filePath));
-      res.end(data);
+      res.write(data);
+      var s = "";
+
+      fs.readdir("app/", function(err, files) {
+
+        if (err) {
+          console.log("Had trouble reading the directory");
+          return;
+        } else {
+          // console.log(files);
+          files.forEach(function(file) {
+            var re = /^[^.]+$|.+\.(?=(html)$)([^.]+$)/;
+            var found = file.match(re);
+            if (!found) {
+              console.log(file);
+              s += "<li><a href=\"" + file + "\">" + file + "</a></li>";
+            }
+          });
+        }
+        res.end("<ul>" + s + "</ul>");
+      });
+
+
     }
   });
 });
