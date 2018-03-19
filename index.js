@@ -44,7 +44,7 @@ var server = http.createServer(function(req, res) {
             var found = file.match(re);
             if (!found) {
               console.log(file);
-              s += "<li><a href=\"" + file + "\">" + file + "</a></li>";
+              s += "<li><a href=\"" + file + "\">" + file + " - " + mime.getType(file) + "</a></li>";
             }
           });
         }
